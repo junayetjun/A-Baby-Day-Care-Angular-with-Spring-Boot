@@ -1,56 +1,58 @@
-import { AfterViewInit, Component, ElementRef, Input, ViewChild } from '@angular/core';
-import { Caregiver } from '../../model/caregiver.model';
-import { Education } from '../../model/education';
-import { Experience } from '../../model/experience';
-import { Skill } from '../../model/skill';
-import { Language } from '../../model/language';
-import { Hobby } from '../../model/hobby';
-import { Reference } from '../../model/reference';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { ViewDetailsDTO } from '../../model/view-details-DTO';
+import { ApplyService } from '../../service/apply.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-viewdetails',
   standalone: false,
   templateUrl: './viewdetails.html',
-  styleUrl: './viewdetails.css'
+  styleUrls: ['./viewdetails.css'] // fixed typo: styleUrl -> styleUrls
 })
-export class Viewdetails implements AfterViewInit{
+export class Viewdetails {
 
-  @Input() caregiver!: Caregiver;
-  @Input() educations: Education[] = [];
-  @Input() experiences: Experience[] = [];
-  @Input() skills: Skill[] = [];
-  @Input() languages: Language[] = [];
-  @Input() hobbies: Hobby[] = [];
-  @Input() references: Reference[] = [];
+  caregiverDetails?: ViewDetailsDTO; // single caregiver details
+  loading = false;
+  errorMessage = '';
 
-  @ViewChild('cvContent') cvContent!: ElementRef;
+  caregiverId!: number;
 
-  ngAfterViewInit(): void {
-    // Optional debug
+  constructor(
+    private applyService: ApplyService,
+    private route: ActivatedRoute,
+    private cd: ChangeDetectorRef,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    const paramCaregiverId = this.route.snapshot.paramMap.get('id'); // expecting URL like /cdetails/:id
+    if (paramCaregiverId) {
+      this.caregiverId = Number(paramCaregiverId);
+      this.fetchCaregiverDetails();
+    } else {
+      this.errorMessage = 'Caregiver ID not provided';
+    }
   }
 
-  async downloadCV(): Promise<void> {
-    const element = this.cvContent.nativeElement;
+  fetchCaregiverDetails(): void {
+    this.loading = true;
 
-    // Temporarily show the hidden CV content
-    element.classList.remove('hidden');
-
-    const html2pdf = (await import('html2pdf.js')).default;
-
-    const opt = {
-      margin: 0.5,
-      filename: `${this.caregiver.name}_CV.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
-      pagebreak: {
-        mode: ['avoid-all', 'css', 'legacy']
+    this.applyService.getViewDetailsForCaregiver(this.caregiverId).subscribe({
+      next: (data) => {
+        this.caregiverDetails = data;
+        console.log('Caregiver details:', this.caregiverDetails);
+        this.cd.markForCheck();
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage = 'Failed to load caregiver details';
+        this.loading = false;
       }
-    };
+    });
+  }
 
-    // await html2pdf().from(element).set(opt).save();
-
-    // Hide the CV content again after PDF is saved
-    element.classList.add('hidden');
+  goBack(): void {
+    this.router.navigate(['/parent-applications']); // adjust route as needed
   }
 }

@@ -7,23 +7,21 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'app-parentjobapplication',
   standalone: false,
   templateUrl: './parentjobapplication.html',
-  styleUrl: './parentjobapplication.css'
+  styleUrls: ['./parentjobapplication.css'] // fixed typo
 })
 export class Parentjobapplication {
 
   applications: ApplyDTO[] = [];
   loading = false;
   errorMessage = '';
-
   jobId!: number;
 
   constructor(
     private applyService: ApplyService,
     private route: ActivatedRoute,
     private cd: ChangeDetectorRef,
-    private ar: Router
-
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const paramJobId = this.route.snapshot.paramMap.get('id');
@@ -41,7 +39,6 @@ export class Parentjobapplication {
       next: (data) => {
         this.applications = data;
         this.cd.markForCheck();
-        console.log(this.applications);
         this.loading = false;
       },
       error: (err) => {
@@ -52,10 +49,24 @@ export class Parentjobapplication {
     });
   }
 
-  viewDetails(id: number){
-    console.log(id);
-    this.ar.navigate(['/cdetails', id])
+  // navigate to caregiver detail view
+  viewDetails(caregiverId: number) {
+    this.router.navigate(['/cdetails', caregiverId]);
   }
 
-
+  // ✅ Delete application
+  deleteApplication(applicationId: number) {
+    if (confirm('Are you sure you want to delete this application?')) {
+      this.applyService.deleteApplication(applicationId).subscribe({
+        next: () => {
+          this.applications = this.applications.filter(app => app.id !== applicationId);
+          this.cd.markForCheck();
+        },
+        error: (err) => {
+          console.error(err);
+          alert('Failed to delete application');
+        }
+      });
+    }
+  }
 }

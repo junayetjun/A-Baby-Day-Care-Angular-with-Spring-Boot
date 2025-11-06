@@ -1,81 +1,49 @@
 <app-navbar></app-navbar>
-<div class="mainpart">
-  <div *ngIf="caregiver" class="container py-5">
-    <div class="card p-4 card-soft-mint"
-      style="border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #f0f4f8;">
 
-      <div class="row align-items-center">
-        <div class="col-md-3 text-center">
-          <img [src]="'http://localhost:8085/images/caregiver/'+caregiver.photo" alt="Profile Image"
-            class="profile-img mb-3"
-            style="height:150px; width:150px; border-radius:50%; object-fit:cover; border:3px solid #6c63ff;">
-          <h4 class="mb-0">{{ caregiver.name }}</h4>
-          <p class="text-muted">{{ caregiver.gender }}</p>
-        </div>
-        <div class="col-md-9">
-          <div class="row mb-2">
-            <div class="col-md-6 info-field"><strong>Email:</strong> {{ caregiver.email }}</div>
-            <div class="col-md-6 info-field"><strong>Phone:</strong> {{ caregiver.phone }}</div>
-            <div class="col-md-6 info-field"><strong>Address:</strong> {{ caregiver.address }}</div>
-            <div class="col-md-6 info-field"><strong>Date of Birth:</strong> {{ caregiver.dateOfBirth }}</div>
-          </div>
+<div class="profile-page">
+
+  <!-- Top Hero Section -->
+  <section class="profile-hero" *ngIf="caregiver">
+    <div class="hero-container">
+      <div class="hero-photo-wrapper">
+        <img [src]="'http://localhost:8085/images/caregiver/'+caregiver.photo" alt="Profile Image" class="hero-photo">
+      </div>
+      <div class="hero-info">
+        <h1>{{ caregiver.name }}</h1>
+        <p class="role">{{ caregiver.gender }}</p>
+        <div class="hero-contact">
+          <span><strong>Email:</strong> {{ caregiver.email }}</span>
+          <span><strong>Phone:</strong> {{ caregiver.phone }}</span>
         </div>
       </div>
-
-      <!-- Buttons Below Card -->
-      <div class="d-flex justify-content-center mt-4 button-group">
-        <button type="button" class="btn btn-outline-primary" routerLink="/apply">Interested Appoinments</button>
-        <button type="button" class="btn btn-outline-primary" routerLink="/pinfo">Attach Personal Info</button>
-      </div>
-
     </div>
+  </section>
 
-
+  <!-- Action Buttons -->
+  <div class="action-buttons container">
+    <button class="btn btn-primary" routerLink="/apply">Interested Appointments</button>
+    <button class="btn btn-outline-primary" routerLink="/pinfo">Attach Personal Info</button>
   </div>
 
+  <!-- Profile Sections -->
+  <div class="profile-sections container">
 
-</div>
-
-
-
-<div class="profile-container">
-
-  <!-- Caregiver Header -->
-  <!-- <div *ngIf="caregiver" class="profile-header">
-    <div class="profile-photo">
-      <img [src]="'http://localhost:8085/images/caregiver/'+caregiver.photo" alt="Profile Image">
-    </div>
-    <div class="profile-info">
-      <h2>{{ caregiver.name }}</h2>
-      <p class="text-muted">{{ caregiver.gender }}</p>
-      <div class="contact-info">
-        <span><strong>Email:</strong> {{ caregiver.email }}</span>
-        <span><strong>Phone:</strong> {{ caregiver.phone }}</span>
+    <!-- Personal Info Card -->
+    <div class="info-card">
+      <h3>Personal Information</h3>
+      <div class="info-row">
         <span><strong>Address:</strong> {{ caregiver.address }}</span>
         <span><strong>Date of Birth:</strong> {{ caregiver.dateOfBirth }}</span>
       </div>
-      <div class="profile-buttons">
-        <button class="btn btn-primary" routerLink="/apply">Applied Jobs</button>
-        <button class="btn btn-outline-primary" routerLink="/pinfo">Attach Personal Info</button>
-      </div>
     </div>
-  </div> -->
 
-  <!-- Sections -->
-  <div class="sections">
-
-    <!-- Education -->
-    <section *ngIf="educations.length > 0" class="section-card">
+    <!-- Education Section -->
+    <div class="section-card" *ngIf="educations.length > 0">
       <h4>Academic Details</h4>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Class</th>
-            <th>Institute</th>
-            <th>Board</th>
-            <th>Result</th>
-            <th>Year</th>
-            <th>Action</th>
+            <th>Class</th><th>Institute</th><th>Board</th><th>Result</th><th>Year</th><th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -89,20 +57,15 @@
           </tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
-    <!-- Experience -->
-    <section *ngIf="experiences.length > 0" class="section-card">
+    <!-- Experience Section -->
+    <div class="section-card" *ngIf="experiences.length > 0">
       <h4>Career Journey</h4>
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>Institution</th>
-            <th>Designation</th>
-            <th>From</th>
-            <th>To</th>
-            <th>Description</th>
-            <th>Action</th>
+            <th>Institution</th><th>Designation</th><th>From</th><th>To</th><th>Description</th><th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -116,18 +79,14 @@
           </tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
-    <!-- Skills -->
-    <section *ngIf="skills.length > 0" class="section-card">
+    <!-- Skills Section -->
+    <div class="section-card" *ngIf="skills.length > 0">
       <h4>Expertise</h4>
       <table class="table table-striped table-hover">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Level</th>
-            <th>Action</th>
-          </tr>
+          <tr><th>Name</th><th>Level</th><th>Action</th></tr>
         </thead>
         <tbody>
           <tr *ngFor="let skill of skills">
@@ -137,10 +96,10 @@
           </tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
-    <!-- Languages -->
-    <section *ngIf="languages.length > 0" class="section-card">
+    <!-- Languages Section -->
+    <div class="section-card" *ngIf="languages.length > 0">
       <h4>Language Proficiency</h4>
       <ul class="list-group list-group-flush">
         <li *ngFor="let language of languages" class="list-group-item d-flex justify-content-between align-items-center">
@@ -148,10 +107,10 @@
           <button class="btn btn-sm btn-danger" (click)="deleteLanguage(language.id)">Delete</button>
         </li>
       </ul>
-    </section>
+    </div>
 
-    <!-- Hobbies -->
-    <section *ngIf="hobbies.length > 0" class="section-card">
+    <!-- Hobbies Section -->
+    <div class="section-card" *ngIf="hobbies.length > 0">
       <h4>Hobbies & Interests</h4>
       <ul class="list-group list-group-flush">
         <li *ngFor="let hobby of hobbies" class="list-group-item d-flex justify-content-between align-items-center">
@@ -159,19 +118,14 @@
           <button class="btn btn-sm btn-danger" (click)="deleteHobby(hobby.id)">Delete</button>
         </li>
       </ul>
-    </section>
+    </div>
 
-    <!-- References -->
-    <section *ngIf="references.length > 0" class="section-card">
-      <h4>Recommendation</h4>
+    <!-- References Section -->
+    <div class="section-card" *ngIf="references.length > 0">
+      <h4>Recommendations</h4>
       <table class="table table-striped table-hover">
         <thead>
-          <tr>
-            <th>Name</th>
-            <th>Contact</th>
-            <th>Relation</th>
-            <th>Action</th>
-          </tr>
+          <tr><th>Name</th><th>Contact</th><th>Relation</th><th>Action</th></tr>
         </thead>
         <tbody>
           <tr *ngFor="let reference of references">
@@ -182,7 +136,7 @@
           </tr>
         </tbody>
       </table>
-    </section>
+    </div>
 
   </div>
 </div>

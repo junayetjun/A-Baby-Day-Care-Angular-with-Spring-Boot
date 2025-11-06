@@ -3,7 +3,7 @@
 <!-- Hero Section with Search Filters -->
 <section class="hero-section">
   <div class="container text-center">
-    <h1 class="display-4 fw-bold">Baby Day Care</h1>
+    <h1 class="display-4 fw-bold">A Baby Daycare</h1>
     <p class="lead mb-4 text-light">Find a Center Near You</p>
 
     <!-- Search Form -->
@@ -49,12 +49,12 @@
         <div class="provider-content">
           <h3>{{ job.title }}</h3>
           <div class="badges">
-            <span class="badge location">{{ job.location }}</span>
+            <span class="badge location">{{ job.location.name }}</span>
             <span class="badge type">{{ job.jobType }}</span>
             <span class="badge salary">{{ job.salary | currency }}</span>
           </div>
-          <p><strong>Parent:</strong> {{ job.parentName }}</p>
-          <p><strong>Contact:</strong> {{ job.contactPerson }} | {{ job.phone }}</p>
+          <p><strong>Parent Name: </strong> {{ job.parentName }}</p>
+          <p><strong>Contact Number: </strong> {{ job.phone }}</p>
         </div>
         <div class="provider-footer">
           <button class="btn" [routerLink]="['/jobs', job.id]">View Profile</button>

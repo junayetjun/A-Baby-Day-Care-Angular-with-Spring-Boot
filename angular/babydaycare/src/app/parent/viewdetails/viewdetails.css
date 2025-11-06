@@ -1,0 +1,151 @@
+.viewdetails-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 1rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.error-box {
+  background-color: #fde2e2;
+  color: #d8000c;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.empty-state {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+.caregiver-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.3s;
+  margin-top: 2rem;
+}
+
+.caregiver-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  background-color: #3498db;
+  color: #fff;
+  padding: 1rem 1.5rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.parent-info {
+  margin-top: 0.3rem;
+  font-size: 1.2rem;
+  opacity: 0.85;
+}
+
+.card-body {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1.5rem;
+  gap: 2rem;
+}
+
+.photo-box {
+  flex: 0 0 180px;
+  height: 180px;
+}
+
+.hero-photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 2px solid #3498db;
+}
+
+.no-photo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ecf0f1;
+  border-radius: 12px;
+  color: #7f8c8d;
+  font-weight: 500;
+  border: 2px dashed #bdc3c7;
+}
+
+.caregiver-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #34495e;
+}
+
+.title {
+font-size: 2.5rem;
+}
+
+.card-footer {
+  text-align: right;
+  padding: 1rem 1.5rem;
+  background-color: #f8f9fa;
+}
+
+.back-btn {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #2980b9;
+}
+
+.loading-box {
+  text-align: center;
+  margin-top: 5rem;
+  color: #3498db;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 1rem auto;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-body {
+    flex-direction: column;
+    align-items: center;
+  }
+  .photo-box {
+    width: 150px;
+    height: 150px;
+  }
+}

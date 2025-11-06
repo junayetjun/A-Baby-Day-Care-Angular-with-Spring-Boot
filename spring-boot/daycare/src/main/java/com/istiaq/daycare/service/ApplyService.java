@@ -1,6 +1,6 @@
 package com.istiaq.daycare.service;
 
-import com.istiaq.daycare.dto.ApplyDTO;
+import com.istiaq.daycare.dto.ViewDetailsDTO;
 import com.istiaq.daycare.entity.Apply;
 import com.istiaq.daycare.entity.Caregiver;
 import com.istiaq.daycare.entity.Job;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class ApplyService {
 
     @Autowired
-    IApplyRepo applyRepo;
+    private IApplyRepo applyRepo;
 
     @Autowired
     private IJobRepo jobRepo;
@@ -27,10 +27,10 @@ public class ApplyService {
     @Autowired
     private IParentRepo parentRepo;
 
-
+    /**
+     * ✅ Create new application
+     */
     public Apply createApplication(Apply apply, Caregiver caregiver) {
-
-
         Job job = jobRepo.findById(apply.getJob().getId())
                 .orElseThrow(() -> new RuntimeException("Job Not Found"));
 
@@ -39,24 +39,28 @@ public class ApplyService {
 
         apply.setJob(job);
         apply.setParent(parent);
-
         apply.setCaregiver(caregiver);
 
         return applyRepo.save(apply);
     }
 
-
-    // Get all applications
+    /**
+     * ✅ Get all applications
+     */
     public List<Apply> getAllApplications() {
         return applyRepo.findAll();
     }
 
-    // Get application by ID
+    /**
+     * ✅ Get application by ID
+     */
     public Optional<Apply> getApplicationById(Long id) {
         return applyRepo.findById(id);
     }
 
-    // Update an application
+    /**
+     * ✅ Update application
+     */
     public Apply updateApplication(Long id, Apply updatedApply) {
         return applyRepo.findById(id)
                 .map(existingApply -> {
@@ -68,43 +72,46 @@ public class ApplyService {
                 .orElseThrow(() -> new RuntimeException("Application not found with ID: " + id));
     }
 
-    // Delete an application
+    /**
+     * ✅ Delete application
+     */
     public void deleteApplication(Long id) {
         applyRepo.deleteById(id);
     }
 
-
-    public ApplyDTO mapToDTO(Apply apply) {
-        return new ApplyDTO(
+    /**
+     * ✅ Map Apply -> ViewDetailsDTO
+     */
+    public ViewDetailsDTO mapToDTO(Apply apply) {
+        return new ViewDetailsDTO(
                 apply.getId(),
                 apply.getJob().getId(),
                 apply.getJob().getTitle(),
                 apply.getParent().getId(),
                 apply.getParent().getParentName(),
                 apply.getCaregiver().getId(),
-                apply.getCaregiver().getName()
+                apply.getCaregiver().getName(),
+                apply.getCaregiver()
         );
     }
 
-
-    public List<ApplyDTO> getAppliesByCaregiver(Long caregiverId) {
+    /**
+     * ✅ Get applies by caregiver
+     */
+    public List<ViewDetailsDTO> getAppliesByCaregiver(Long caregiverId) {
         return applyRepo.findByCaregiver_Id(caregiverId)
                 .stream()
-                .map(apply -> new ApplyDTO(
-                        apply.getId(),
-                        apply.getJob().getId(),
-                        apply.getJob().getTitle(),
-                        apply.getParent().getId(),
-                        apply.getParent().getParentName(),
-                        apply.getCaregiver().getId(),
-                        apply.getCaregiver().getName()
-                ))
+                .map(this::mapToDTO)
                 .collect(Collectors.toList());
     }
 
-
-    public List<ApplyDTO> getApplicationsByJob(Long parentId, Long jobId) {
-        List<Apply> applies = applyRepo.findAllByParentAndJob(parentId, jobId);
-        return applies.stream().map(this::mapToDTO).collect(Collectors.toList());
+    /**
+     * ✅ Get applications for a job (by parent)
+     */
+    public List<ViewDetailsDTO> getApplicationsByJob(Long parentId, Long jobId) {
+        return applyRepo.findAllByParentAndJob(parentId, jobId)
+                .stream()
+                .map(this::mapToDTO)
+                .collect(Collectors.toList());
     }
 }

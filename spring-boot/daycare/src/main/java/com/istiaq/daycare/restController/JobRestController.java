@@ -1,6 +1,7 @@
 package com.istiaq.daycare.restController;
 
 
+import com.istiaq.daycare.dto.CircularDTO;
 import com.istiaq.daycare.dto.JobDTO;
 import com.istiaq.daycare.entity.Job;
 import com.istiaq.daycare.repository.IJobRepo;
@@ -50,9 +51,20 @@ public class JobRestController {
 
 
     // GET all jobs
+//    @GetMapping
+//    public ResponseEntity<List<JobDTO>> getAllJobs() {
+//        List<JobDTO> jobs = jobService.getJobs();
+//        if (jobs.isEmpty()) {
+//            return ResponseEntity.noContent().build(); // 204 No Content if empty
+//        }
+//        return ResponseEntity.ok(jobs); // 200 OK with jobs list
+//    }
+
+    // GET all jobs
+    //UPDATED DTO CHANGE
     @GetMapping
-    public ResponseEntity<List<JobDTO>> getAllJobs() {
-        List<JobDTO> jobs = jobService.getJobs();
+    public ResponseEntity<List<CircularDTO>> getAllJobs() {
+        List<CircularDTO> jobs = jobService.getCirculars();
         if (jobs.isEmpty()) {
             return ResponseEntity.noContent().build(); // 204 No Content if empty
         }
@@ -60,9 +72,19 @@ public class JobRestController {
     }
 
 
+//    @GetMapping("{id}")
+//    public ResponseEntity<JobDTO> getJobById(@PathVariable Long id) {
+//        JobDTO job = jobService.getJobById(id);
+//        if (job == null) {
+//            return ResponseEntity.notFound().build(); // 404 if not found
+//        }
+//        return ResponseEntity.ok(job); // 200 with job data
+//    }
+
+    //UPDATED DTO CHANGE
     @GetMapping("{id}")
-    public ResponseEntity<JobDTO> getJobById(@PathVariable Long id) {
-        JobDTO job = jobService.getJobById(id);
+    public ResponseEntity<CircularDTO> getJobById(@PathVariable Long id) {
+        CircularDTO job = jobService.getJobById(id);
         if (job == null) {
             return ResponseEntity.notFound().build(); // 404 if not found
         }

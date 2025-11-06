@@ -1,5 +1,6 @@
 package com.istiaq.daycare.service;
 
+import com.istiaq.daycare.dto.CircularDTO;
 import com.istiaq.daycare.dto.JobDTO;
 import com.istiaq.daycare.entity.Category;
 import com.istiaq.daycare.entity.Job;
@@ -67,18 +68,34 @@ public class JobService {
     }
 
 
-    public List<JobDTO> getJobs() {
+//    public List<JobDTO> getJobs() {
+//        List<Job> jobs = jobRepo.findAll(); // fetch all Job entities
+//        return jobs.stream()                     // create a Stream<Job>
+//                .map(JobDTO::new)            // convert each Job to JobDTO via constructor
+//                .collect(Collectors.toList());// collect back to a List<JobDTO>
+//    }
+
+    public List<CircularDTO> getCirculars() {
         List<Job> jobs = jobRepo.findAll(); // fetch all Job entities
         return jobs.stream()                     // create a Stream<Job>
-                .map(JobDTO::new)            // convert each Job to JobDTO via constructor
+                .map(CircularDTO::new)            // convert each Job to JobDTO via constructor
                 .collect(Collectors.toList());// collect back to a List<JobDTO>
     }
 
 
-    public JobDTO getJobById(Long id) {
+//    public JobDTO getJobById(Long id) {
+//        Optional<Job> jobOpt = jobRepo.findById(id);
+//        if (jobOpt.isPresent()) {
+//            return new JobDTO(jobOpt.get()); // convert Job entity to JobDTO
+//        } else {
+//            return null; // or throw an exception if you prefer
+//        }
+//    }
+
+    public CircularDTO getJobById(Long id) {
         Optional<Job> jobOpt = jobRepo.findById(id);
         if (jobOpt.isPresent()) {
-            return new JobDTO(jobOpt.get()); // convert Job entity to JobDTO
+            return new CircularDTO(jobOpt.get()); // convert Job entity to JobDTO
         } else {
             return null; // or throw an exception if you prefer
         }
