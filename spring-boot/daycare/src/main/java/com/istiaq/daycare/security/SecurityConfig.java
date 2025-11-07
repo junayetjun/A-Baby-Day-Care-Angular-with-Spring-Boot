@@ -36,52 +36,26 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(req -> req
-                                .requestMatchers("/api/locations/**", "/api/categories/**", "/api/jobs/**", "/api/user/all", "/images/**").permitAll()
+                                .requestMatchers("/api/locations/**", "/api/categories/**", "/api/jobs/**", "/images/**").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/api/applications/**").permitAll()
 //                        .requestMatchers(HttpMethod.POST, "/api/applications/").permitAll()
                                 .requestMatchers(HttpMethod.POST, "/api/jobs/").hasRole("PARENT")
                                 .requestMatchers(
                                         "/api/user/login",
-                                        "/auth/login",
-                                        "/api/caregiver/**",
-                                        "/api/education/**",
-                                        "/images/**",
-                                        "/api/skill/**",
-                                        "/api/experience/**",
-                                        "/api/hobby/**",
-                                        "/api/extracurricular/**",
-                                        "/api/language/**",
-                                        "/api/refference/**",
-                                        "/api/training/**",
-                                        "/api/user/active/**",
-                                        "/api/parent/",
-                                        "/api/parent/**",
-                                        "/api/admin/",
-                                        "/api/admin/**",
-                                        "/api/categories/",
-                                        "/api/categories/**",
-                                        "/api/locations/**",
-                                        "/api/locations/",
-                                        "/api/contact/",
-                                        "/api/jobs/search**",
-                                        "/api/contact/**",
-                                        "/api/cv/view/by-user/**",
-                                        "/api/jobs/my-jobs"
+                                        "/auth/login"
                                 ).permitAll()
-                                .requestMatchers("/api/user/all",
+                                .requestMatchers(
                                         "/api/caregiver/profile",
                                         "/api/education/add",
                                         "/api/education/all",
                                         "/api/experience/add",
                                         "/api/experience/all",
-                                        "/api/extracurricular/add",
-                                        "/api/extracurricular/all",
                                         "/api/hobby/add",
                                         "/api/hobby/all",
                                         "/api/language/add",
                                         "/api/language/all",
-                                        "/api/refference/add",
-                                        "/api/refference/all",
+                                        "/api/reference/add",
+                                        "/api/reference/all",
                                         "/api/skill/add",
                                         "/api/skill/all",
                                         "/api/training/add",
@@ -92,7 +66,9 @@ public class SecurityConfig {
                                 .requestMatchers("/api/parent/profile",
                                         "/api/jobs/**",
                                         "/api/applications/applicant/"
-                                ).hasRole("PARENT")
+                                ).hasRole("PARENT").requestMatchers(
+                                        "/api/user/all"
+                                ).hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .userDetailsService(userService)
